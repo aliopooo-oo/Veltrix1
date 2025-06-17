@@ -1,0 +1,167 @@
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>كورسات المهارات الشخصية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f6f8;
+      color: #333;
+    }
+    header {
+      background-color: #0077b6;
+      color: white;
+      padding: 1.5rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.6rem;
+    }
+    .nav-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+    .nav-buttons a {
+      text-decoration: none;
+      background-color: #023e8a;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      color: white;
+      font-size: 0.9rem;
+    }
+    .search-section {
+      max-width: 800px;
+      margin: 2rem auto;
+      text-align: center;
+    }
+    .search-section input {
+      width: 80%;
+      padding: 0.8rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .categories {
+      text-align: center;
+      margin: 1rem auto;
+    }
+    .categories button {
+      margin: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #00b4d8;
+      color: white;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .courses {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .course-card {
+      background-color: white;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .course-card iframe {
+      width: 100%;
+      height: 200px;
+      border-radius: 8px;
+    }
+    .course-title {
+      font-size: 1.1rem;
+      margin: 0.7rem 0 0.3rem;
+      font-weight: bold;
+    }
+    .course-info {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>كورسات المهارات الشخصية</h1>
+    <div class="nav-buttons">
+      <a href="tips.html">نصائح</a>
+      <a href="logn.html">تسجيل الدخول</a>
+      <a href="cv.html">منشئ CV</a>
+      <a href="indexQuiz.html">الأختبارات</a>
+    </div>
+  </header>  <section class="search-section">
+    <input type="text" id="searchInput" placeholder="ابحث عن كورس معين...">
+  </section>  <section class="categories">
+    <button onclick="filterCategory('الكل')">الكل</button>
+    <button onclick="filterCategory('تواصل')">تواصل فعال</button>
+    <button onclick="filterCategory('وقت')">إدارة الوقت</button>
+    <button onclick="filterCategory('مقابلات')">مقابلات العمل</button>
+  </section>  <section class="courses" id="coursesContainer">
+    <div class="course-card" data-category="تواصل">
+      <iframe src="https://www.youtube.com/embed/A_ApbjvFz84" allowfullscreen></iframe>
+      <div class="course-title">فن التواصل الفعال</div>
+      <div class="course-info">المدة: 18 دقيقة | قناة أخضر</div>
+    </div>
+    <div class="course-card" data-category="تواصل">
+      <iframe src="https://www.youtube.com/embed/5cUUp2aJ6mQ" allowfullscreen></iframe>
+      <div class="course-title">كيف تحسن مهارات التواصل</div>
+      <div class="course-info">المدة: 22 دقيقة | قناة الزتونة</div>
+    </div>
+    <div class="course-card" data-category="وقت">
+      <iframe src="https://www.youtube.com/embed/3qx1z3Z_rj4" allowfullscreen></iframe>
+      <div class="course-title">إدارة الوقت بذكاء</div>
+      <div class="course-info">المدة: 15 دقيقة | قناة أسلوب</div>
+    </div>
+    <div class="course-card" data-category="وقت">
+      <iframe src="https://www.youtube.com/embed/WnU86U7Cw5U" allowfullscreen></iframe>
+      <div class="course-title">خطوات بسيطة لإدارة وقتك</div>
+      <div class="course-info">المدة: 17 دقيقة | قناة دروس أونلاين</div>
+    </div>
+    <div class="course-card" data-category="مقابلات">
+      <iframe src="https://www.youtube.com/embed/nKU-FMzZFF4" allowfullscreen></iframe>
+      <div class="course-title">أسرار النجاح في مقابلة العمل</div>
+      <div class="course-info">المدة: 30 دقيقة | قناة BBC Extra</div>
+    </div>
+    <div class="course-card" data-category="مقابلات">
+      <iframe src="https://www.youtube.com/embed/JYyB1U7CeDA" allowfullscreen></iframe>
+      <div class="course-title">10 أسئلة شائعة في المقابلات</div>
+      <div class="course-info">المدة: 25 دقيقة | قناة نور هاني</div>
+    </div>
+  </section>  <script>
+    const searchInput = document.getElementById('searchInput');
+    const courses = document.querySelectorAll('.course-card');
+
+    searchInput.addEventListener('input', () => {
+      const value = searchInput.value.toLowerCase();
+      courses.forEach(course => {
+        const title = course.querySelector('.course-title').textContent.toLowerCase();
+        const info = course.querySelector('.course-info').textContent.toLowerCase();
+        course.style.display = (title.includes(value) || info.includes(value)) ? 'block' : 'none';
+      });
+    });
+
+    function filterCategory(category) {
+      courses.forEach(course => {
+        if (category === 'الكل') {
+          course.style.display = 'block';
+        } else {
+          course.style.display = course.getAttribute('data-category') === category ? 'block' : 'none';
+        }
+      });
+    }
+  </script></body>
+</html>

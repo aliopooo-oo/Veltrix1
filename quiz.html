@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>اختبار البرمجة</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #e6f4ff;
+      padding: 20px;
+      direction: rtl;
+    }
+    .quiz-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #007acc;
+    }
+    .question {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    button {
+      background-color: #007acc;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .result {
+      font-size: 20px;
+      color: green;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quiz-box">
+    <h2 id="quiz-title">جارٍ تحميل الاختبار...</h2>
+    <div id="question" class="question"></div>
+    <div id="options"></div>
+    <button onclick="nextQuestion()">التالي</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang');
+    const quizTitle = document.getElementById('quiz-title');
+
+    const questions = {
+      html: [
+        {
+          question: "ما هو الوسم الصحيح لإنشاء رابط؟",
+          options: ["<a>", "<link>", "<href>", "<url>"],
+          answer: 0
+        },
+        {
+          question: "ما هو الوسم الصحيح لإضافة صورة؟",
+          options: ["<img>", "<image>", "<src>", "<pic>"],
+          answer: 0
+        }
+      ],
+      css: [
+        {
+          question: "ما الخاصية المستخدمة لتغيير لون الخلفية؟",
+          options: ["color", "background-color", "bgcolor", "bg"],
+          answer: 1
+        },
+        {
+          question: "كيف تجعل النص غامق؟",
+          options: ["font-weight: bold", "text-style: bold", "font: bold", "bold: true"],
+          answer: 0
+        }
+      ],
+      js: [
+        {
+          question: "أي طريقة تُستخدم لطباعة في الكونسول؟",
+          options: ["console.log()", "print()", "echo()", "log.console()"],
+          answer: 0
+        },
+        {
+          question: "ما الكلمة المفتاحية لإنشاء دالة؟",
+          options: ["method", "func", "function", "define"],
+          answer: 2
+        }
+      ]
+    };
+
+    let quiz = questions[lang];
+    let current = 0;
+    let score = 0;
+
+    quizTitle.innerText = `اختبار ${lang.toUpperCase()}`;
+
+    function loadQuestion() {
+      if (current >= quiz.length) {
+        document.getElementById('question').style.display = "none";
+        document.getElementById('options').style.display = "none";
+        document.querySelector('button').style.display = "none";
+        document.getElementById('result').innerText = `نتيجتك: ${score} من ${quiz.length}`;
+        return;
+      }
+
+      const q = quiz[current];
+      document.getElementById('question').innerText = q.question;
+      const options = document.getElementById('options');
+      options.innerHTML = "";
+
+      q.options.forEach((opt, index) => {
+        const label = document.createElement('label');
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'option';
+        radio.value = index;
+        label.appendChild(radio);
+        label.append(" " + opt);
+        options.appendChild(label);
+      });
+    }
+
+    function nextQuestion() {
+      const selected = document.querySelector('input[name="option"]:checked');
+      if (!selected) return alert("اختر إجابة");
+
+      if (parseInt(selected.value) === quiz[current].answer) score++;
+      current++;
+      loadQuestion();
+    }
+
+    loadQuestion();
+  </script>
+
+</body>
+</html>

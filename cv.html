@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منشئ السيرة الذاتية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f0f4f8;
+      color: #333;
+    }
+    header {
+      background-color: #0077b6;
+      color: white;
+      text-align: center;
+      padding: 1rem 2rem;
+    }
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-family: inherit;
+    }
+    textarea {
+      height: 100px;
+    }
+    button {
+      background-color: #0077b6;
+      color: white;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      margin-top: 1.5rem;
+      margin-left: 0.5rem;
+      cursor: pointer;
+    }
+    .preview {
+      margin-top: 2rem;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+    img {
+      max-width: 150px;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>منشئ السيرة الذاتية</h1>
+    <p>املأ النموذج واحصل على سيرتك الذاتية مباشرة</p>
+  </header>
+
+  <main>
+    <form id="cvForm">
+      <label>صورة شخصية</label>
+      <input type="file" id="photo" accept="image/*">
+
+      <label>الاسم الكامل</label>
+      <input type="text" id="name" required>
+
+      <label>البريد الإلكتروني</label>
+      <input type="text" id="email">
+
+      <label>رقم الهاتف</label>
+      <input type="text" id="phone">
+
+      <label>نبذة تعريفية</label>
+      <textarea id="summary"></textarea>
+
+      <label>المهارات</label>
+      <textarea id="skills" placeholder="مثال: العمل الجماعي، القيادة،..."></textarea>
+
+      <label>الخبرات العملية</label>
+      <textarea id="experience" placeholder="اسم الشركة، المسمى الوظيفي، السنوات..."></textarea>
+
+      <label>التعليم</label>
+      <textarea id="education" placeholder="اسم الجامعة، التخصص، السنة..."></textarea>
+
+      <button type="submit">عرض السيرة الذاتية</button>
+      <button type="button" onclick="downloadPDF()">تحميل PDF</button>
+    </form>
+
+    <div class="preview" id="cvPreview" style="display:none">
+      <h2>المعاينة:</h2>
+      <div id="cvContent"></div>
+    </div>
+  </main>
+
+  <script>
+    let imageData = "";
+
+    document.getElementById('photo').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          imageData = e.target.result;
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+
+    document.getElementById('cvForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const summary = document.getElementById('summary').value;
+      const skills = document.getElementById('skills').value;
+      const experience = document.getElementById('experience').value;
+      const education = document.getElementById('education').value;
+
+      const content = `${imageData ? <img src="${imageData}" alt="صورة شخصية"> : ''}
+        <h3>${name}</h3>
+        <p><strong>البريد:</strong> ${email} | <strong>الهاتف:</strong> ${phone}</p>
+        <p><strong>نبذة:</strong> ${summary}</p>
+        <p><strong>المهارات:</strong><br>${skills.replace(/\n/g, '<br>')}</p>
+        <p><strong>الخبرات:</strong><br>${experience.replace(/\n/g, '<br>')}</p>
+        <p><strong>التعليم:</strong><br>${education.replace(/\n/g, '<br>')}</p>
+      `;
+
+      document.getElementById('cvContent').innerHTML = content;
+      document.getElementById('cvPreview').style.display = 'block';
+    });
+
+    function downloadPDF() {
+      const element = document.getElementById('cvContent');
+      const opt = {
+        margin:       0.5,
+        filename:     'cv.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save();
+    }
+  </script>
+</body>
+</html>
